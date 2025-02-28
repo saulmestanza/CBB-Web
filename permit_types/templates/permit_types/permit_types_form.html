@@ -20,26 +20,31 @@
                     <form method="post">
                         {% csrf_token %}
     
-                        <div class="input-group mb-3">
-                            <span style="width: 150px;" class="input-group-text">Nombre: </span>
-                            {{ form.name|add_class:"form-control" }}
-                        </div>
+                        <p>
+                          <label for="id_name">Nombre:</label>
+                          {{ form.name|add_class:"form-control" }}
+                        </p>
 
-                        <div class="input-group mb-3">
-                            <span style="width: 150px;" class="input-group-text">Precio: </span>
-                            {{ form.price|add_class:"form-control" }}
-                        </div>
+                        <p>
+                          <label for="id_price">Precio:</label>
+                          {{ form.price|add_class:"form-control" }}
+                        </p>
 
-                        <div class="input-group mb-3">
-                          <span style="width: 150px;" class="input-group-text">Permiso Activo: </span>
+                        <p>
+                          <label for="id_active">Permiso Activo:</label>
                           {{ form.active }}
+                        </p>
+
+                        <div class="row">
+                          <div class="col-6">
+                              <a style="width: 100%" href="{% url 'permit_types_list' %}" class="btn btn-secondary">Cancelar</a>
+                          </div>
+                          <div class="col-6">
+                              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block" type="submit" style="background-color: #E57373;width:100%;display:block;">
+                                {% if object %}Editar{% else %}Crear{% endif %}
+                              </button>
+                          </div>
                       </div>
-    
-                        <div class="d-grid gap-2 pt-1 mb-4">
-                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-lg btn-block" type="submit" style="background-color: #E57373;">
-                            {% if object %}Editar{% else %}Crear{% endif %}
-                        </button>
-                        </div>
                     </form>
   
                 </div>
