@@ -1,6 +1,11 @@
 body {
     background: #EFEFEF !important;
 }
+input[type="checkbox"] {
+    transform: scale(1.5);
+    margin: 10px;
+    margin-left: 10px !important;
+}
 tr {
     border-top: 12px solid transparent !important;
     border-bottom: 12px solid transparent !important;

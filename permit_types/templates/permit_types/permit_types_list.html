@@ -7,10 +7,15 @@
 			<div class="table-wrapper">
 				<div class="table-title">
 					<div class="row">
-						<div class="col-6">
+						<div class="col-3">
 							<h2>Lista de Tipo de Permisos</h2>
 						</div>
-                        <div class="col-6">
+						<div class="col-5">
+                            <form class="d-flex" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            </form>
+                        </div>
+                        <div class="col-4">
                             <a href="{% url 'permit_types_create' %}" class="btn btn-success" data-toggle="modal"><i class="fa fa-user-plus"></i> <span>Crear Tipo de Permiso</span></a>
                             <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-user-plus"></i> <span>Subir Excel</span></a>
 						</div>

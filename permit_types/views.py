@@ -53,7 +53,6 @@ class PermitTypesCreateView(LoginRequiredMixin, MultiGroupRequiredMixin, CreateV
     success_url = reverse_lazy('permit_types_list') 
 
     def form_valid(self, form):
-        form.instance.active = True 
         return super().form_valid(form)
     
 

@@ -9,7 +9,7 @@
 <section class="vh-100">
     <div class="container py-5">
       <div class="row d-flex justify-content-center align-items-center">
-        <div class="col col-xl-10">
+        <div class="col col-xl-8">
           <div class="card" style="border-radius: 1rem;">
             <div class="row g-0">
               <div class="d-flex align-items-center">
@@ -29,6 +29,11 @@
                             <span style="width: 150px;" class="input-group-text">Precio: </span>
                             {{ form.price|add_class:"form-control" }}
                         </div>
+
+                        <div class="input-group mb-3">
+                          <span style="width: 150px;" class="input-group-text">Permiso Activo: </span>
+                          {{ form.active }}
+                      </div>
     
                         <div class="d-grid gap-2 pt-1 mb-4">
                         <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-lg btn-block" type="submit" style="background-color: #E57373;">
