@@ -12,12 +12,12 @@
 						</div>
 						<div class="col-5">
                             <form class="d-flex" role="search">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <input class="form-control me-2" id="search-permit-type" type="search" value="{{ search_query }}" placeholder="Buscar Tipo de Permiso" aria-label="Search">
                             </form>
                         </div>
                         <div class="col-4">
                             <a href="{% url 'permit_types_create' %}" class="btn btn-success" data-toggle="modal"><i class="fa fa-user-plus"></i> <span>Crear Tipo de Permiso</span></a>
-                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-user-plus"></i> <span>Subir Excel</span></a>
+                            <a href="" class="btn btn-success" data-toggle="modal"><i class="fa fa-user-plus"></i> <span>Subir Excel</span></a>
 						</div>
 					</div>
 				</div>
@@ -31,7 +31,7 @@
 							<th></th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="permit-types-table">
                         {% for permit_type in permit_types %}
                         <tr>    
                             <td colspan="2">{{ permit_type.name }}</td>
@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="col-6">
                                         <!-- Button trigger modal -->
-                                        <a type="button" class="btn-danger" data-bs-toggle="modal" data-bs-target="#permitTypeModal-{{permit_type.pk}}">
+                                        <a type="button" class="delete" data-bs-toggle="modal" data-bs-target="#permitTypeModal-{{permit_type.pk}}">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                         <!-- Modal -->
@@ -81,5 +81,19 @@
 			</div>
 		</div>        
 	</div>
+
+    <script>
+        document.getElementById("search-permit-type").addEventListener("input", function() {
+          let query = this.value;
+          fetch(`?q=${query}`)
+            .then(response => response.text())
+            .then(data => {
+              let parser = new DOMParser();
+              let htmlDoc = parser.parseFromString(data, 'text/html');
+              let newTableBody = htmlDoc.getElementById("permit-types-table").innerHTML;
+              document.getElementById("permit-types-table").innerHTML = newTableBody;
+            });
+        });
+    </script>
    
 {% endblock %}

@@ -19,9 +19,18 @@ class PermitTypesListView(LoginRequiredMixin, MultiGroupRequiredMixin, ListView)
     redirect_field_name = 'next' 
     groups_required = ["Administrador",]
     paginate_by = 15
-    
+
     def get_queryset(self):
-        return super().get_queryset().all().order_by('name').order_by('-active')
+        queryset = super().get_queryset().all().order_by('name').order_by('-active')
+        search_query = self.request.GET.get('q')
+        if search_query:
+            queryset = queryset.filter(name__icontains=search_query)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_query'] = self.request.GET.get('q', '')
+        return context
     
 
 class PermitTypesDeleteView(LoginRequiredMixin, MultiGroupRequiredMixin, DeleteView):
