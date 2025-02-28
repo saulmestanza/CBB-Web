@@ -1,6 +1,5 @@
 from django.shortcuts import redirect
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
@@ -14,7 +13,7 @@ from utils.mixins import MultiGroupRequiredMixin
 from users.forms import *
 
 
-class UsersListView(LoginRequiredMixin, MultiGroupRequiredMixin, ListView):
+class UsersListView(MultiGroupRequiredMixin, ListView):
     model = User
     template_name = 'users/users_list.html'
     context_object_name = 'users' 
@@ -37,10 +36,12 @@ class UsersListView(LoginRequiredMixin, MultiGroupRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['search_query'] = self.request.GET.get('q', '')
+        user_group_names = self.request.user.groups.values_list('name', flat=True)
+        context['user_group_names'] = user_group_names
         return context
 
 
-class UsersCreateView(LoginRequiredMixin, MultiGroupRequiredMixin, CreateView):
+class UsersCreateView(MultiGroupRequiredMixin, CreateView):
     model = User
     form_class = UserCreateForm
     template_name = 'users/users_form.html'
@@ -51,7 +52,7 @@ class UsersCreateView(LoginRequiredMixin, MultiGroupRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class UsersUpdateView(LoginRequiredMixin, MultiGroupRequiredMixin, UpdateView):
+class UsersUpdateView(MultiGroupRequiredMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
     template_name = 'users/users_form.html'
@@ -62,7 +63,7 @@ class UsersUpdateView(LoginRequiredMixin, MultiGroupRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class UsersDeleteView(LoginRequiredMixin, MultiGroupRequiredMixin, DeleteView):
+class UsersDeleteView(MultiGroupRequiredMixin, DeleteView):
     model = User
     groups_required = ["Administrador",]
     success_url = reverse_lazy('users_list')
@@ -82,7 +83,7 @@ class UsersDeleteView(LoginRequiredMixin, MultiGroupRequiredMixin, DeleteView):
         return redirect(self.success_url)
     
 
-class UserPasswordResetView(LoginRequiredMixin, MultiGroupRequiredMixin, UpdateView):
+class UserPasswordResetView(MultiGroupRequiredMixin, UpdateView):
     model = User
     form_class = UserPasswordResetForm
     template_name = 'users/user_password_reset.html'

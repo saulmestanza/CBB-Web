@@ -1,5 +1,4 @@
 from django.shortcuts import redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DeleteView
@@ -11,7 +10,7 @@ from .models import *
 from .forms import *
 
 
-class PermitTypesListView(LoginRequiredMixin, MultiGroupRequiredMixin, ListView):
+class PermitTypesListView(MultiGroupRequiredMixin, ListView):
     model = PermitTypes
     template_name = 'permit_types/permit_types_list.html'
     context_object_name = 'permit_types' 
@@ -30,10 +29,12 @@ class PermitTypesListView(LoginRequiredMixin, MultiGroupRequiredMixin, ListView)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['search_query'] = self.request.GET.get('q', '')
+        user_group_names = self.request.user.groups.values_list('name', flat=True)
+        context['user_group_names'] = user_group_names
         return context
     
 
-class PermitTypesDeleteView(LoginRequiredMixin, MultiGroupRequiredMixin, DeleteView):
+class PermitTypesDeleteView(MultiGroupRequiredMixin, DeleteView):
     model = PermitTypes
     groups_required = ["Administrador",]
     success_url = reverse_lazy('permit_types_list')
@@ -54,7 +55,7 @@ class PermitTypesDeleteView(LoginRequiredMixin, MultiGroupRequiredMixin, DeleteV
 
 
 
-class PermitTypesCreateView(LoginRequiredMixin, MultiGroupRequiredMixin, CreateView):
+class PermitTypesCreateView(MultiGroupRequiredMixin, CreateView):
     model = PermitTypes
     groups_required = ["Administrador",]
     template_name = 'permit_types/permit_types_form.html'
@@ -65,7 +66,7 @@ class PermitTypesCreateView(LoginRequiredMixin, MultiGroupRequiredMixin, CreateV
         return super().form_valid(form)
     
 
-class PermitTypesUpdateView(LoginRequiredMixin, MultiGroupRequiredMixin, UpdateView):
+class PermitTypesUpdateView(MultiGroupRequiredMixin, UpdateView):
     model = PermitTypes
     groups_required = ["Administrador",]
     template_name = 'permit_types/permit_types_form.html'
