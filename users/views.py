@@ -47,6 +47,9 @@ class UsersCreateView(LoginRequiredMixin, MultiGroupRequiredMixin, CreateView):
     success_url = reverse_lazy('users_list')
     groups_required = ["Administrador",]
 
+    def form_valid(self, form):
+        return super().form_valid(form)
+
 
 class UsersUpdateView(LoginRequiredMixin, MultiGroupRequiredMixin, UpdateView):
     model = User
@@ -54,6 +57,9 @@ class UsersUpdateView(LoginRequiredMixin, MultiGroupRequiredMixin, UpdateView):
     template_name = 'users/users_form.html'
     success_url = reverse_lazy('users_list')
     groups_required = ["Administrador",]
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
 class UsersDeleteView(LoginRequiredMixin, MultiGroupRequiredMixin, DeleteView):
