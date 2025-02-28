@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+		<div class="table-responsive">
+			<div class="table-wrapper">
+				<div class="table-title">
+					<div class="row">
+						<div class="col-6">
+							<h2>Lista de Tipo de Permisos</h2>
+						</div>
+                        <div class="col-6">
+                            <a href="{% url 'permit_types_create' %}" class="btn btn-success" data-toggle="modal"><i class="fa fa-user-plus"></i> <span>Crear Tipo de Permiso</span></a>
+                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-user-plus"></i> <span>Subir Excel</span></a>
+						</div>
+					</div>
+				</div>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th colspan="2">Nombre</th>
+                            <th>Precio</th>
+                            <th>Activo</th>
+                            <th>Fecha Creación</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+                        {% for permit_type in permit_types %}
+                        <tr>    
+                            <td colspan="2">{{ permit_type.name }}</td>
+                            <td>${{ permit_type.price }}</td>
+                            <td>{% if permit_type.active %}
+                                <spam class="alert alert-success">ACTIVO</spam>
+                                {% else %}
+                                <spam class="alert alert-danger">INACTIVO</spam>
+                            {% endif %}</td>
+                            <td>{{ permit_type.creation_date }}</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a href="{% url 'permit_types_edit' pk=permit_type.pk %}" class="edit" data-toggle="modal"><i class="fa fa-pen-to-square"></i></a>
+                                    </div>
+                                    <div class="col-6">
+                                        <!-- Button trigger modal -->
+                                        <a type="button" class="btn-danger" data-bs-toggle="modal" data-bs-target="#permitTypeModal-{{permit_type.pk}}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="permitTypeModal-{{permit_type.pk}}" tabindex="-1" aria-labelledby="permitTypeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="permitTypeModalLabel">Deshabilitar Tipo de Permiso</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>¿Desea Deshabilitar el Tipo de Permiso <b>{{ permit_type.name }}</b>?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                    <a class="btn btn-danger" style="color:white" href="{% url 'permit_types_delete' pk=permit_type.pk %}">Deshabilitar</a>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+					</tbody>
+				</table>
+                {% include 'pagination.html' %}
+			</div>
+		</div>        
+	</div>
+   
+{% endblock %}

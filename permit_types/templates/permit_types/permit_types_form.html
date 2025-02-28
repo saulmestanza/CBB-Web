@@ -1,0 +1,48 @@
+
+      
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+<section class="vh-100">
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col col-xl-10">
+          <div class="card" style="border-radius: 1rem;">
+            <div class="row g-0">
+              <div class="d-flex align-items-center">
+                <div class="card-body p-4 p-lg-5 text-black">
+                  
+                    <h1>{% if object %}Editar{% else %}Crear{% endif %} Tipo de Permiso</h1>
+  
+                    <form method="post">
+                        {% csrf_token %}
+    
+                        <div class="input-group mb-3">
+                            <span style="width: 150px;" class="input-group-text">Nombre: </span>
+                            {{ form.name|add_class:"form-control" }}
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span style="width: 150px;" class="input-group-text">Precio: </span>
+                            {{ form.price|add_class:"form-control" }}
+                        </div>
+    
+                        <div class="d-grid gap-2 pt-1 mb-4">
+                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-lg btn-block" type="submit" style="background-color: #E57373;">
+                            {% if object %}Editar{% else %}Crear{% endif %}
+                        </button>
+                        </div>
+                    </form>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
