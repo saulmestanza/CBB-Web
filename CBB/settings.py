@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'authentication',
     'users',
     'permit_types',
+    'clients',
 ]
 
 MIDDLEWARE = [

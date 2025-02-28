@@ -37,7 +37,7 @@
 
               {% if 'Administrador' in user_group_names %}
               <li class="nav-item">
-                <a class="nav-link" href="#"  style="color:white;">Liquidar Clientes</a>
+                <a class="nav-link" href="{% url 'clients_list' %}"  style="color:white;">Clientes</a>
               </li>
               {% endif %}
 

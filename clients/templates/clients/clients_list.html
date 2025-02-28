@@ -8,16 +8,24 @@
 				<div class="table-title">
 					<div class="row">
 						<div class="col-3">
-							<h2>Lista de Tipo de Permisos</h2>
+							<h2>Lista de Clientes</h2>
 						</div>
 						<div class="col-5">
                             <form class="d-flex" role="search">
-                                <input class="form-control me-2" id="search-permit-type" type="search" value="{{ search_query }}" placeholder="Buscar Tipo de Permiso" aria-label="Search">
+                                <input class="form-control me-2" id="search-clients" type="search" value="{{ search_query }}" placeholder="Buscar Clientes" aria-label="Search">
                             </form>
                         </div>
                         <div class="col-4">
-                            <a href="{% url 'permit_types_create' %}" class="btn btn-success" data-toggle="modal"><i class="fa fa-user-plus"></i> <span>Crear Tipo de Permiso</span></a>
-                            <a href="" class="btn btn-success" data-toggle="modal"><i class="fa fa-user-plus"></i> <span>Subir Excel</span></a>
+                            <div class="dropdown">
+                                <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Filtrar por Estado
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="?filter=1">Activo</a></li>
+                                    <li><a class="dropdown-item" href="?filter=0">Liquidado</a></li>
+                                </ul>
+                            </div>
+                            <a href="{% url 'clients_create' %}" class="btn btn-success" data-toggle="modal"><i class="fa fa-user-plus"></i> <span>Crear Cliente</span></a>
 						</div>
 					</div>
 				</div>
@@ -25,47 +33,45 @@
 					<thead>
 						<tr>
 							<th colspan="2">Nombre</th>
-                            <th>Precio</th>
+                            <th>Cédula</th>
                             <th>Estado</th>
-                            <th>Fecha Creación</th>
 							<th></th>
 						</tr>
 					</thead>
-					<tbody id="permit-types-table">
-                        {% for permit_type in permit_types %}
+					<tbody id="clients-table">
+                        {% for client in clients %}
                         <tr>    
-                            <td colspan="2">{{ permit_type.name }}</td>
-                            <td>${{ permit_type.price }}</td>
-                            <td>{% if permit_type.active %}
+                            <td colspan="2">{{ client.name }} {{ client.last_name }}</td>
+                            <td>{{ client.national_id }}</td>
+                            <td>{% if client.active %}
                                 <spam class="alert alert-success">ACTIVO</spam>
                                 {% else %}
-                                <spam class="alert alert-danger">INACTIVO</spam>
+                                <spam class="alert alert-danger">LIQUIDADO</spam>
                             {% endif %}</td>
-                            <td>{{ permit_type.creation_date }}</td>
                             <td>
                                 <div class="row">
                                     <div class="col-6">
-                                        <a href="{% url 'permit_types_edit' pk=permit_type.pk %}" class="edit" data-toggle="modal"><i class="fa fa-pen-to-square"></i></a>
+                                        <a href="{% url 'clients_edit' pk=client.pk %}" class="edit" data-toggle="modal"><i class="fa fa-pen-to-square"></i></a>
                                     </div>
                                     <div class="col-6">
                                         <!-- Button trigger modal -->
-                                        <a type="button" class="delete" data-bs-toggle="modal" data-bs-target="#permitTypeModal-{{permit_type.pk}}">
+                                        <a type="button" class="delete" data-bs-toggle="modal" data-bs-target="#clientModal-{{client.pk}}">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                         <!-- Modal -->
-                                        <div class="modal fade" id="permitTypeModal-{{permit_type.pk}}" tabindex="-1" aria-labelledby="permitTypeModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="clientModal-{{client.pk}}" tabindex="-1" aria-labelledby="clientModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="permitTypeModalLabel">Deshabilitar Tipo de Permiso</h1>
+                                                    <h1 class="modal-title fs-5" id="clientModalLabel">Liquidar Cliente</h1>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>¿Desea Deshabilitar el Tipo de Permiso <b>{{ permit_type.name }}</b>?</p>
+                                                    <p>¿Desea Liquidar el Cliente <b>{{ client.name }}</b>?</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                                    <a class="btn btn-danger" style="color:white" href="{% url 'permit_types_delete' pk=permit_type.pk %}">Deshabilitar</a>
+                                                    <a class="btn btn-danger" style="color:white" href="{% url 'clients_delete' pk=client.pk %}">Liquidar</a>
                                                 </div>
                                             </div>
                                             </div>
@@ -83,15 +89,15 @@
 	</div>
 
     <script>
-        document.getElementById("search-permit-type").addEventListener("input", function() {
+        document.getElementById("search-clients").addEventListener("input", function() {
           let query = this.value;
           fetch(`?q=${query}`)
             .then(response => response.text())
             .then(data => {
               let parser = new DOMParser();
               let htmlDoc = parser.parseFromString(data, 'text/html');
-              let newTableBody = htmlDoc.getElementById("permit-types-table").innerHTML;
-              document.getElementById("permit-types-table").innerHTML = newTableBody;
+              let newTableBody = htmlDoc.getElementById("clients-table").innerHTML;
+              document.getElementById("clients-table").innerHTML = newTableBody;
             });
         });
     </script>
