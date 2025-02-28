@@ -1,3 +1,6 @@
+from django.shortcuts import render
+
+# Create your views here.
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -8,8 +11,8 @@ from django.views.generic.list import ListView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
 
-from admin.forms import *
-from admin.models import *
+from dashboard.forms import *
+from dashboard.models import *
 
 
 class LogInView(LoginView):
@@ -53,7 +56,7 @@ class LogOutView(LogoutView):
 
 class UsersListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
-    template_name = 'admin/users_list.html'
+    template_name = 'dashboard/users_list.html'
     context_object_name = 'users' 
     login_url = ''
     redirect_field_name = 'next' 

@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from admin.views import * 
+from dashboard.views import * 
 
 urlpatterns = [
-    path("", LogInView.as_view(), name="login"),
+    path("login/", LogInView.as_view(), name="login"),
     path("logout/", LogOutView.as_view(), name="logout"),
     path("users/", UsersListView.as_view(), name="users_list")
 ]

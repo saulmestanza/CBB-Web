@@ -26,18 +26,19 @@ SECRET_KEY = 'django-insecure-pfwpdjid7*xg0&j&h#m1==7c3l%f0tykb+2qa!&$be9=bvg5t$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'admin',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -124,7 +125,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #
-LOGIN_URL = "/"
+LOGIN_URL = "/dashboard/login"
 
 #
 MEDIA_URL = '/media/'
