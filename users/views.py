@@ -3,13 +3,12 @@ from django.contrib.auth.models import User
 from django.views.generic.list import ListView
 
 from utils.mixins import MultiGroupRequiredMixin
-from dashboard.forms import *
-from dashboard.models import *
+from users.forms import *
 
 
 class UsersListView(LoginRequiredMixin, MultiGroupRequiredMixin, ListView):
     model = User
-    template_name = 'dashboard/users_list.html'
+    template_name = 'users/users_list.html'
     context_object_name = 'users' 
     login_url = ''
     redirect_field_name = 'next' 
