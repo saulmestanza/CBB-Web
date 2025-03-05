@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password 
 
 class UserCreateForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     groups = forms.ModelMultipleChoiceField(
         queryset=Group.objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -16,6 +16,12 @@ class UserCreateForm(forms.ModelForm):
         fields = [
             'username', 'first_name', 'last_name', 'password', 'is_active', 'groups',
         ]
+
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}), 
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),  
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}), 
+        }
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
@@ -52,6 +58,12 @@ class UserUpdateForm(forms.ModelForm):
         fields = [
             'username', 'first_name', 'last_name', 'is_active', 'groups'
         ]
+
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}), 
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),  
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}), 
+        }
 
     def save(self, commit=True):
         user = super().save(commit=False)
