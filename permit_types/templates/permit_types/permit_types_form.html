@@ -19,21 +19,8 @@
   
                     <form method="post">
                         {% csrf_token %}
-    
-                        <p>
-                          <label for="id_name">Nombre:</label>
-                          {{ form.name|add_class:"form-control" }}
-                        </p>
 
-                        <p>
-                          <label for="id_price">Precio:</label>
-                          {{ form.price|add_class:"form-control" }}
-                        </p>
-
-                        <p>
-                          <label for="id_active">Permiso Activo:</label>
-                          {{ form.active }}
-                        </p>
+                        {{ form.as_p }}
 
                         <div class="row">
                           <div class="col-6">

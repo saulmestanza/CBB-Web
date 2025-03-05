@@ -57,9 +57,9 @@ class PermitTypesDeleteView(MultiGroupRequiredMixin, DeleteView):
 
 class PermitTypesCreateView(MultiGroupRequiredMixin, CreateView):
     model = PermitType
+    form_class = PermitTypesForm
     groups_required = ["Administrador",]
     template_name = 'permit_types/permit_types_form.html'
-    fields = ['name', 'price', 'active'] 
     success_url = reverse_lazy('permit_types_list') 
 
     def form_valid(self, form):
@@ -68,9 +68,9 @@ class PermitTypesCreateView(MultiGroupRequiredMixin, CreateView):
 
 class PermitTypesUpdateView(MultiGroupRequiredMixin, UpdateView):
     model = PermitType
+    form_class = PermitTypesForm
     groups_required = ["Administrador",]
     template_name = 'permit_types/permit_types_form.html'
-    fields = ['name', 'price', 'active'] 
     success_url = reverse_lazy('permit_types_list')
 
     def form_valid(self, form):
