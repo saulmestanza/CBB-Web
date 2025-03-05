@@ -26,6 +26,7 @@ urlpatterns = [
     path('dashboard/', include("users.urls")),
     path('dashboard/', include("permit_types.urls")),
     path('dashboard/', include("clients.urls")),
+    path('dashboard/', include("permits.urls")),
 ]
 
 if settings.DEBUG:

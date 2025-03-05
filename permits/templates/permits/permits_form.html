@@ -1,0 +1,45 @@
+
+      
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+<section class="vh-100">
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col col-xl-8">
+          <div class="card" style="border-radius: 1rem;">
+            <div class="row g-0">
+              <div class="d-flex align-items-center">
+                <div class="card-body p-4 p-lg-5 text-black">
+                  
+                    <h1>!</h1>
+  
+                    <form method="post">
+                        {% csrf_token %}
+    
+                        {{ form.as_p }}
+                        
+                        <div class="row">
+                          <div class="col-6">
+                              <a style="width: 100%" href="{% url 'permit_types_list' %}" class="btn btn-secondary">Cancelar</a>
+                          </div>
+                          <div class="col-6">
+                              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block" type="submit" style="background-color: #E57373;width:100%;display:block;">
+                                {% if object %}Editar{% else %}Crear{% endif %}
+                              </button>
+                          </div>
+                      </div>
+                    </form>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
