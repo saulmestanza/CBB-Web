@@ -31,40 +31,51 @@
 
               {% if 'Administrador' in user_group_names %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'permit_types_list' %}"  style="color:white;">Tipo de Permisos</a>
+                <a class="nav-link" href="{% url 'permit_types_list' %}" style="color:white;">Tipo de Permisos</a>
               </li>
               {% endif %}
 
               {% if 'Administrador' in user_group_names %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'clients_list' %}"  style="color:white;">Clientes</a>
+                <a class="nav-link" href="{% url 'clients_list' %}" style="color:white;">Clientes</a>
               </li>
               {% endif %}
 
               {% if 'Administrador' in user_group_names %}
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle"  style="color:white;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" style="color:white;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Permisos
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  <li><a class="dropdown-item" href="{% url 'permits_create' %}">Generar Permiso</a></li>
+                  <li><a class="dropdown-item" href="#">Consultar Permisos</a></li>
                 </ul>
+              </li>
+              {% endif %}
+
+              {% if 'Administrador' in user_group_names %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'permits_download_inspector_file' %}" style="color:white;">Ficha Inspección</a>
+              </li>
+              {% endif %}
+
+              {% if 'Administrador' in user_group_names %}
+              <li class="nav-item">
+                <a class="nav-link" href="#" style="color:white;">Arqueo de Caja</a>
               </li>
               {% endif %}
 
               {% if 'Administrador' in user_group_names or 'Reporteria' in user_group_names %}
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle"  style="color:white;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" style="color:white;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Reportes
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  <li><a class="dropdown-item" href="#">General</a></li>
+                  <li><a class="dropdown-item" href="#">Permisos Construcción</a></li>
+                  <li><a class="dropdown-item" href="#">Permisos Funcionamiento</a></li>
+                  <li><a class="dropdown-item" href="#">Permisos Ocasional</a></li>
+                  <li><a class="dropdown-item" href="#">Permisos Transporte</a></li>
                 </ul>
               </li>
               {% endif %}
