@@ -15,7 +15,7 @@ from .forms import *
 
 
 class ClientsListView(MultiGroupRequiredMixin, ListView):
-    model = Clients
+    model = Client
     template_name = 'clients/clients_list.html'
     context_object_name = 'clients' 
     login_url = ''
@@ -48,15 +48,15 @@ class ClientsListView(MultiGroupRequiredMixin, ListView):
     
 
 class ClientsDeleteView(MultiGroupRequiredMixin, DeleteView):
-    model = Clients
+    model = Client
     groups_required = ["Administrador",]
     success_url = reverse_lazy('clients_list')
 
     
     def get_object(self):
-        if not Clients.objects.filter(pk=self.kwargs['pk']).exists():
+        if not Client.objects.filter(pk=self.kwargs['pk']).exists():
             raise Http404
-        permit_type = Clients.objects.get(pk=self.kwargs['pk'])
+        permit_type = Client.objects.get(pk=self.kwargs['pk'])
         return permit_type
 
     
@@ -68,7 +68,7 @@ class ClientsDeleteView(MultiGroupRequiredMixin, DeleteView):
 
 
 class ClientsCreateView(MultiGroupRequiredMixin, CreateView):
-    model = Clients
+    model = Client
     groups_required = ["Administrador",]
     template_name = 'clients/clients_form.html'
     fields = ['name', 'last_name', 'national_id'] 
@@ -80,7 +80,7 @@ class ClientsCreateView(MultiGroupRequiredMixin, CreateView):
     
 
 class ClientsUpdateView(MultiGroupRequiredMixin, UpdateView):
-    model = Clients
+    model = Client
     groups_required = ["Administrador",]
     template_name = 'clients/clients_form.html'
     fields = ['name', 'last_name', 'national_id', 'active'] 

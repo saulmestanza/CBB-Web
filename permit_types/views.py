@@ -11,7 +11,7 @@ from .forms import *
 
 
 class PermitTypesListView(MultiGroupRequiredMixin, ListView):
-    model = PermitTypes
+    model = PermitType
     template_name = 'permit_types/permit_types_list.html'
     context_object_name = 'permit_types' 
     login_url = ''
@@ -35,15 +35,15 @@ class PermitTypesListView(MultiGroupRequiredMixin, ListView):
     
 
 class PermitTypesDeleteView(MultiGroupRequiredMixin, DeleteView):
-    model = PermitTypes
+    model = PermitType
     groups_required = ["Administrador",]
     success_url = reverse_lazy('permit_types_list')
 
     
     def get_object(self):
-        if not PermitTypes.objects.filter(pk=self.kwargs['pk']).exists():
+        if not PermitType.objects.filter(pk=self.kwargs['pk']).exists():
             raise Http404
-        permit_type = PermitTypes.objects.get(pk=self.kwargs['pk'])
+        permit_type = PermitType.objects.get(pk=self.kwargs['pk'])
         return permit_type
 
     
@@ -56,7 +56,7 @@ class PermitTypesDeleteView(MultiGroupRequiredMixin, DeleteView):
 
 
 class PermitTypesCreateView(MultiGroupRequiredMixin, CreateView):
-    model = PermitTypes
+    model = PermitType
     groups_required = ["Administrador",]
     template_name = 'permit_types/permit_types_form.html'
     fields = ['name', 'price', 'active'] 
@@ -67,7 +67,7 @@ class PermitTypesCreateView(MultiGroupRequiredMixin, CreateView):
     
 
 class PermitTypesUpdateView(MultiGroupRequiredMixin, UpdateView):
-    model = PermitTypes
+    model = PermitType
     groups_required = ["Administrador",]
     template_name = 'permit_types/permit_types_form.html'
     fields = ['name', 'price', 'active'] 

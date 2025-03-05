@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import PermitTypes 
+from .models import PermitType
 
 # Register your models here.
 
-admin.site.register(PermitTypes)  
+admin.site.register(PermitType)  

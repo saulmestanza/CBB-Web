@@ -64,8 +64,8 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class UserPasswordResetForm(forms.ModelForm):
-    new_password = forms.CharField(widget=forms.PasswordInput, label="New Password")
-    confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+    new_password = forms.CharField(widget=forms.PasswordInput, label="Nueva Contraseña")
+    confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirmar Contraseña")
 
     class Meta:
         model = User
@@ -77,6 +77,6 @@ class UserPasswordResetForm(forms.ModelForm):
         confirm_password = cleaned_data.get("confirm_password")
 
         if password and confirm_password and password != confirm_password:
-            raise forms.ValidationError("Passwords do not match.")
+            raise forms.ValidationError("Las contraseñas no coinciden.")
 
         return cleaned_data

@@ -1,10 +1,10 @@
 from django import forms
-from .models import PermitTypes
+from .models import PermitType
 
 class PermitTypesForm(forms.ModelForm):
 
     class Meta:
-        model = PermitTypes
+        model = PermitType
         fields = (
             'name',
             'price',

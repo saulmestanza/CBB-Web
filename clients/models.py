@@ -1,8 +1,7 @@
 from django.db import models
-from django.utils import timezone
 
 # Create your models here.
-class Clients(models.Model):
+class Client(models.Model):
     name = models.CharField(max_length=128, verbose_name=(u'Nombre'))
     last_name = models.CharField(max_length=128, verbose_name=(u'Apellido'))
     national_id = models.CharField(max_length=15, verbose_name=(u'Cédula'))
