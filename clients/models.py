@@ -8,4 +8,4 @@ class Client(models.Model):
     active = models.BooleanField(default=True, verbose_name=('Habilitado'))
 
     def __str__(self):
-        return f"{self.name} - ${self.last_name}"
+        return f"{self.name} {self.last_name}"

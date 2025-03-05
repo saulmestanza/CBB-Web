@@ -15,8 +15,8 @@ class LogInView(LoginView):
     def get_success_url(self):
         user = self.request.user
         if user.is_staff:
-            return reverse_lazy('users_list')
-        return reverse_lazy('users_list')
+            return reverse_lazy('permits_create')
+        return reverse_lazy('permits_create')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:

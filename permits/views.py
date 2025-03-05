@@ -6,6 +6,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.views import View
+from django.db.models import Q
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from PIL import Image
@@ -27,7 +28,12 @@ class PermitsListView(MultiGroupRequiredMixin, ListView):
         queryset = super().get_queryset().all().order_by('permit_code').order_by('permit_type')
         search_query = self.request.GET.get('q')
         if search_query:
-            queryset = queryset.filter(permit_code__icontains=search_query)
+            queryset = queryset.filter(
+                Q(permit_code__icontains=search_query) | 
+                Q(client__name__icontains=search_query) |
+                Q(client__last_name__icontains=search_query) |
+                Q(client__national_id__icontains=search_query)
+            )
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -46,6 +52,7 @@ class PermitsCreateView(MultiGroupRequiredMixin, CreateView):
     success_url = reverse_lazy('permits_list') 
 
     def form_valid(self, form):
+        form.instance.user = self.request.user 
         return super().form_valid(form)
 
 

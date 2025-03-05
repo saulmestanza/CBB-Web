@@ -4,6 +4,12 @@
 
 {% load widget_tweaks %}
 
+{% load static %}
+{% block extrahead %}
+    <link href="{% static 'django_select2/css/select2.min.css' %}" rel="stylesheet" />
+    <script src="{% static 'django_select2/js/select2.min.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 
 <section class="vh-100">
@@ -15,16 +21,30 @@
               <div class="d-flex align-items-center">
                 <div class="card-body p-4 p-lg-5 text-black">
                   
-                    <h1>!</h1>
+                    <h1>{% if object %}Editar{% else %}Generar{% endif %} Permiso.</h1>
   
                     <form method="post">
                         {% csrf_token %}
+
+                        <p>
+                          <label for="id_permit_mode">Modo Permiso:</label>
+                          <select name="permit_mode" class="form-control" id="id_permit_mode">
+                            <option value="TR" selected="">Transporte</option>
+                            <option value="OC">Ocasional</option>
+                            <option value="CN">Construcción</option>
+                            <option value="FN">Funcionamiento</option>
+                          </select>
+                        </p>
     
                         {{ form.as_p }}
+
+                        <!-- These fields will be conditionally displayed based on permit_mode -->
+                        <div id="transport_fields" style="display:none;">
+                        </div>
                         
                         <div class="row">
                           <div class="col-6">
-                              <a style="width: 100%" href="{% url 'permit_types_list' %}" class="btn btn-secondary">Cancelar</a>
+                              <a style="width: 100%" href="{% url 'permits_list' %}" class="btn btn-secondary">Cancelar</a>
                           </div>
                           <div class="col-6">
                               <button data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block" type="submit" style="background-color: #E57373;width:100%;display:block;">
@@ -42,4 +62,25 @@
       </div>
     </div>
   </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const permitModeField = document.getElementById('id_permit_mode');
+        const transportFields = document.getElementById('transport_fields');
+        // Check the value of permit_mode when the page loads
+        if (permitModeField.value === 'TR') {
+            transportFields.style.display = 'block'; // Show the fields if 'TR' is selected
+        } else {
+            transportFields.style.display = 'none'; // Hide the fields otherwise
+        }
+        // Add an event listener to dynamically update when 'permit_mode' changes
+        permitModeField.addEventListener('change', function() {
+            if (permitModeField.value === 'TR') {
+                transportFields.style.display = 'block'; // Show fields when 'TR' is selected
+            } else {
+                transportFields.style.display = 'none'; // Hide fields otherwise
+            }
+        });
+    });
+  </script>
 {% endblock %}
