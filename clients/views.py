@@ -104,6 +104,13 @@ class ClientDownloadLiquidatePDF(MultiGroupRequiredMixin, View):
                 new_height = height - 40
                 new_width = new_height * aspect
             pdf.drawImage(image_path, 20, height - new_height - 20, width=new_width, height=new_height)
+    
+            pdf.drawString(90, 612, f"{datetime.datetime.today().strftime('%Y-%m-%d')}") # todays date
+            pdf.drawString(120, 589, f"{client}") # clients name
+
+            pdf.drawString(90, 232, f"{datetime.datetime.today().strftime('%Y-%m-%d')}") # todays date
+            pdf.drawString(120, 211, f"{client}") # clients name
+            
             pdf.showPage()
             pdf.save()
         except Exception as e:
