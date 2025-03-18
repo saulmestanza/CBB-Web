@@ -43,17 +43,19 @@
                         <tr>    
                             <td colspan="2">{{ client.name }} {{ client.last_name }}</td>
                             <td>{{ client.national_id }}</td>
-                            <td>{% if client.active %}
-                                <spam class="alert alert-success">ACTIVO</spam>
+                            <td>
+                                {% if client.active %}
+                                <spam class="alert alert-info">ACTIVO</spam>
                                 {% else %}
                                 <spam class="alert alert-danger">LIQUIDADO</spam>
-                            {% endif %}</td>
+                                {% endif %}
+                            </td>
                             <td>
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <a href="{% url 'clients_edit' pk=client.pk %}" class="edit" data-toggle="modal"><i class="fa fa-pen-to-square"></i></a>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <!-- Button trigger modal -->
                                         <a type="button" class="delete" data-bs-toggle="modal" data-bs-target="#clientModal-{{client.pk}}">
                                             <i class="fa fa-trash"></i>
@@ -77,6 +79,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% if not client.active %}
+                                    <div class="col-4">
+                                        <a href="{% url 'clients_download_liquidate_pdf' pk=client.pk %}" class="success" data-toggle="modal"><i class="fa fa-download"></i></a>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </td>
                         </tr>

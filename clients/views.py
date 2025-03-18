@@ -1,18 +1,22 @@
-from django.shortcuts import render
-
-# Create your views here.
+import os
+from django.conf import settings
+from django.contrib import messages
 from django.shortcuts import redirect
+from django.views.generic.base import View
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import DeleteView
 from django.urls import reverse_lazy
-from django.http import Http404
+from django.http import HttpResponse, Http404
 from django.db.models import Q
-
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from PIL import Image
 from utils.mixins import MultiGroupRequiredMixin
+from permits.models import Permit
 from .models import *
 from .forms import *
-
+import datetime
 
 class ClientsListView(MultiGroupRequiredMixin, ListView):
     model = Client
@@ -51,20 +55,61 @@ class ClientsDeleteView(MultiGroupRequiredMixin, DeleteView):
     model = Client
     groups_required = ["Administrador",]
     success_url = reverse_lazy('clients_list')
-
     
     def get_object(self):
         if not Client.objects.filter(pk=self.kwargs['pk']).exists():
             raise Http404
-        permit_type = Client.objects.get(pk=self.kwargs['pk'])
-        return permit_type
+        client: Client = Client.objects.get(pk=self.kwargs['pk'])
+        return client
 
-    
-    def get(self, request, *args, **kwargs):
-        # permit_type = self.get_object() 
-        # permit_type.active = False
-        # permit_type.save()
+    def get(self, request, *_, **__):
+        client: Client = self.get_object() 
+        permit: Permit = Permit.objects.filter(client = client).order_by('-pk').first()
+        if permit:
+            permit_expiration_year: int = permit.expiration_date.year
+            current_year: int = datetime.date.today().year
+            if permit_expiration_year < current_year:
+                messages.warning(request, f"El cliente {client} tiene pendiente de pagos.")
+                return redirect(self.success_url)
+        messages.success(request, f"El cliente {client} fue liquidado exitosamente.")
+        client.active = False
+        client.save()
         return redirect(self.success_url)
+    
+
+class ClientDownloadLiquidatePDF(MultiGroupRequiredMixin, View):
+    groups_required = ["Administrador",]
+    success_url = reverse_lazy('clients_list')
+
+    def get(self, _, *__, **___):
+        client: Client = Client.objects.get(pk=self.kwargs['pk'])
+        permit_file_name = "permiso_liquidacion"
+        filename = f"{permit_file_name}.png"
+        image_path = os.path.join(settings.MEDIA_ROOT, filename)
+        if not os.path.exists(image_path):
+            raise Http404("File not found")
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{permit_file_name}.pdf"'
+        pdf = canvas.Canvas(response, pagesize=letter)
+        width, height = letter
+
+        try:
+            image = Image.open(image_path)
+            img_width, img_height = image.size
+            aspect = img_width / img_height
+            new_width = min(width - 40, img_width) 
+            new_height = new_width / aspect
+            if new_height > height - 40:
+                new_height = height - 40
+                new_width = new_height * aspect
+            pdf.drawImage(image_path, 20, height - new_height - 20, width=new_width, height=new_height)
+            pdf.showPage()
+            pdf.save()
+        except Exception as e:
+            return HttpResponse(f"Error processing image: {str(e)}", status=500)
+
+        return response
 
 
 class ClientsCreateView(MultiGroupRequiredMixin, CreateView):
